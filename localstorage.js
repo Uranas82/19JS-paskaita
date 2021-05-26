@@ -23,6 +23,26 @@ var editInput = document.getElementById('edit-input');
 // localStorage.setItem('Sarasas', duomenys);
 var duomenys = localStorage.getItem('Sarasas');
 duomenys = JSON.parse(duomenys);
+// Sudedam duomenis i letenle is data masyvo
+duomenys.forEach(item => {
+    if (item.done == true) {
+        var card = `<div class="border border-1 shadow-sm p-3 mb-3  rounded todo-item">
+        <h4 class="mb-3 input-name">${JSON.stringify(item.todo)}</h4>
+        <button type="button" class="btn btn-danger delete">Delete</button>
+        <button type="button" class="btn btn-success move-todo">Move to Done</button>
+        <button type="button" class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit</button>
+    </div>`;
+    doneList.innerHTML += card;
+    } else {
+   var card = `<div class="border border-1 shadow-sm p-3 mb-3  rounded todo-item">
+        <h4 class="mb-3 input-name">${JSON.stringify(item.todo)}</h4>
+        <button type="button" class="btn btn-danger delete">Delete</button>
+        <button type="button" class="btn btn-success move-todo">Move to Done</button>
+        <button type="button" class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit</button>
+    </div>`;
+    todoList.innerHTML += card;
+    };
+});
 // Add todo
 todoForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -39,6 +59,8 @@ todoForm.addEventListener('submit', e => {
         <button type="button" class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit</button>
     </div>`;
         todoList.innerHTML += newTodo;
+        duomenys.push({todo: todoInput.value, done: false});
+        localStorage.setItem('Sarasas', JSON.stringify(duomenys));
         todoForm.reset();
     }
 });
