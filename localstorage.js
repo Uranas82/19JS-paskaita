@@ -27,7 +27,7 @@ duomenys = JSON.parse(duomenys);
 duomenys.forEach(item => {
     if (item.done == true) {
         var card = `<div class="border border-1 shadow-sm p-3 mb-3  rounded todo-item">
-        <h4 class="mb-3 input-name">${JSON.stringify(item.todo)}</h4>
+        <h4 class="mb-3 input-name">${item.todo}</h4>
         <button type="button" class="btn btn-danger delete">Delete</button>
         <button type="button" class="btn btn-success move-todo">Move to Done</button>
         <button type="button" class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit</button>
@@ -35,7 +35,7 @@ duomenys.forEach(item => {
     doneList.innerHTML += card;
     } else {
    var card = `<div class="border border-1 shadow-sm p-3 mb-3  rounded todo-item">
-        <h4 class="mb-3 input-name">${JSON.stringify(item.todo)}</h4>
+        <h4 class="mb-3 input-name">${item.todo}</h4>
         <button type="button" class="btn btn-danger delete">Delete</button>
         <button type="button" class="btn btn-success move-todo">Move to Done</button>
         <button type="button" class="btn btn-warning edit" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit</button>
@@ -71,7 +71,15 @@ document.querySelector('body').addEventListener('click', e => {
     if (e.target.classList.contains('delete')) {
         var duomenys = localStorage.getItem('Sarasas');
         duomenys = JSON.parse(duomenys);
+        var text = e.target.closest('.todo-item').querySelector('h4').innerText;
+       
+        const nauji = duomenys.filter(todo => {
+            return todo != text;
+            });
+        duomenys = nauji;
         e.target.closest('.todo-item').remove();
+        localStorage.setItem('Sarasas', JSON.stringify(duomenys));
+        console.log(duomenys);
         // move todo to done
     } else if (e.target.classList.contains('move-todo')) {
         var duomenys = localStorage.getItem('Sarasas');
